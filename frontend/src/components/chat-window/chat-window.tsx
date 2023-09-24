@@ -8,7 +8,12 @@ const ChatWindow: React.FC = () => {
   const socketRef = useRef<Socket>();
 
   useEffect(() => {
-    socketRef.current = io('http://localhost:8000/chat_endpoint');
+    socketRef.current = io('http://localhost:8000/ws', {
+      query: {
+        token: 'your-token',
+        userId: 'user-id'
+      }
+    });
     socketRef.current.on('receive-message', (message: string) => {
       setMessages((prev) => [...prev, message]);
     });
