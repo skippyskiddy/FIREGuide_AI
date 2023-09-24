@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from ..models.budget import UserBudget, BudgetItem
+from models.budget import UserBudget, BudgetItem
 
 router = APIRouter()
 

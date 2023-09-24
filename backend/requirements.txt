@@ -1,3 +1,5 @@
 fastapi[all]
 uvicorn
 openai
+sqlalchemy
+pydantic
