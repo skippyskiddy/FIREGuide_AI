@@ -1,31 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { io, Socket } from 'socket.io-client';
 import './styles.css';
 
 const ChatWindow: React.FC = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');
-  const socketRef = useRef<Socket>();
+  const socketRef = useRef<WebSocket>();
 
   useEffect(() => {
-    socketRef.current = io('http://localhost:8000/ws', {
-      query: {
-        token: 'your-token',
-        userId: 'user-id'
-      }
-    });
-    socketRef.current.on('receive-message', (message: string) => {
-      setMessages((prev) => [...prev, message]);
-    });
+    // Use native WebSocket instead of Socket.io
+    socketRef.current = new WebSocket('ws://localhost:8000/ws');
+
+    socketRef.current.onmessage = (event) => {
+      setMessages((prev) => [...prev, event.data]);
+    };
+
+    socketRef.current.onopen = () => {
+      // If you need to send token or userId when socket opens, you can do it here.
+      // Example:
+      // socketRef.current?.send(JSON.stringify({ token: 'your-token', userId: 'user-id' }));
+    };
 
     return () => {
-      socketRef.current?.disconnect();
+      socketRef.current?.close();
     };
   }, []);
 
   const sendMessage = () => {
-    if (newMessage.trim()) {
-      socketRef.current?.emit('send-message', newMessage);
+    if (newMessage.trim() && socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(newMessage);
       setNewMessage('');
     }
   };
