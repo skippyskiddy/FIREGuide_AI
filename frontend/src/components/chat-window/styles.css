@@ -1,5 +1,5 @@
 .chat-window {
-    width: 300px;
+    height: 90vh;
     border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
@@ -17,5 +17,6 @@
 
 .input-container {
     display: flex;
+    justify-content: space-between;
     padding: 10px;
 }
