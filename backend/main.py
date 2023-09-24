@@ -1,10 +1,14 @@
-from fastapi import FastAPI, WebSocket, Depends
+from fastapi import FastAPI, WebSocket
+from .routers import budget
 import openai
 
-# OpenAI API key; 
-openai.api_key = ''
+# OpenAI API key; remember to keep this secure in production.
+openai.api_key = 'OPENAI_API_KEY'
 
 app = FastAPI()
+
+# Include the routers for budget
+app.include_router(budget.router)
 
 @app.websocket("/ws")
 async def chat_endpoint(websocket: WebSocket):
@@ -16,8 +20,8 @@ async def chat_endpoint(websocket: WebSocket):
         try:
             response = openai.Completion.create(
               engine="davinci", 
-              prompt=data,  # The text/question you received via WebSocket
-              max_tokens=150  # You can adjust parameters as needed
+              prompt=data,  # The text/question received via WebSocket
+              max_tokens=150  # Adjust parameters as needed
             )
             answer = response.choices[0].text.strip()
 
