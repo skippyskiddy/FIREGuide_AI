@@ -1,0 +1,21 @@
+.chat-window {
+    width: 300px;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.input-container {
+    display: flex;
+    padding: 10px;
+}
