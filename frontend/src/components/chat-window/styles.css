@@ -1,6 +1,5 @@
 .chat-window {
-    height: 90vh;
-    border: 1px solid #ccc;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }

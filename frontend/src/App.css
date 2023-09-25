@@ -1,11 +1,11 @@
 .app-container {
   display: flex;
   width: 100vw;
+  margin: 1rem;
 }
 
 .chat-container {
   flex: 3; /* 75% width */
-  background-color: #f0f0f0;
   overflow-y: auto;
   border-right: 1px solid #ccc;
 }
