@@ -41,7 +41,6 @@ const ChatWindow: React.FC = () => {
   }, []);
 
   const sendMessage = () => {
-    console.log("wtf")
     if (newMessage.trim() && socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(newMessage);
       setNewMessage('');
@@ -62,8 +61,15 @@ const ChatWindow: React.FC = () => {
           <span className="label-text">Send a message</span>
         </label>
         <div className="join">
-          <input type="text" placeholder="I want a budget" className="input input-bordered w-full join-item" />
-          <button className="btn join-item" onChange={(e) => setNewMessage(e.target.value)} onClick={sendMessage} value={newMessage}>Send</button>
+        <input 
+          type="text" 
+          placeholder="I want a budget" 
+          className="input input-bordered w-full join-item" 
+          onChange={(e) => setNewMessage(e.target.value)} 
+          value={newMessage}
+          />
+          <button className="btn join-item" onClick={sendMessage}>Send</button>
+
         </div>
       </div>
     </div>

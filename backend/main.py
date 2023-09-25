@@ -63,7 +63,7 @@ async def chat_endpoint(websocket: WebSocket):
                 # answer = response.choices[0].text.strip()
 
                 # Send back the AI's response
-                await websocket.send_text("aint no way")
+                await websocket.send_text("yeehaw")
             except Exception as e:
                 logging.error(f"Error interacting with OpenAI: {str(e)}")
                 await websocket.send_text(str(e))
