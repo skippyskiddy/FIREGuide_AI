@@ -1,16 +1,17 @@
 from fastapi import FastAPI, WebSocket
 from routers import budget, user 
 import openai
-from database import engine, SessionLocal
-import models
-
+from database.database import engine, SessionLocal
+from database.base import Base 
+import os
 
 # OpenAI API key; remember to keep this secure in production.
-openai.api_key = 'OPENAI_API_KEY'
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI()
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
+
 
 @app.on_event("startup")
 def startup_event():
@@ -24,14 +25,10 @@ def shutdown_event():
     # More shutdown logic here
     session.close()
 
-app.include_router(user.router, prefix="/users", tags=["users"])
 
 # Include the routers
 app.include_router(budget.router, prefix="/budget", tags=["budget"])
 app.include_router(user.router, prefix="/users", tags=["users"])  # <-- Include the user router
-
-# Include the routers for budget
-app.include_router(budget.router)
 
 @app.websocket("/ws")
 async def chat_endpoint(websocket: WebSocket):
