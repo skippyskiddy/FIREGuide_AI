@@ -33,22 +33,24 @@ const ChatWindow: React.FC = () => {
   };
 
   return (
-    <div className="chat-window">
-      <div className="messages-container">
-        {messages.map((message, index) => (
-          <div key={index} className="message">
-            {message}
+    <div>
+      <div className="chat-window">
+        <div className="messages-container">
+          {messages.map((message, index) => (
+            <div key={index} className="message">
+              {message}
+            </div>
+          ))}
+        </div>
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Send a message</span>
+          </label>
+          <div className="join">
+            <input type="text" placeholder="I want a budget" className="input input-bordered w-full join-item" />
+            <button className="btn join-item" onClick={sendMessage}>Send</button>
           </div>
-        ))}
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button onClick={sendMessage}>Send</button>
+        </div>
       </div>
     </div>
   );
