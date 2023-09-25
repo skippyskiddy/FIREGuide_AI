@@ -1,4 +1,5 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
 from routers import budget, user 
 import openai
 from database.database import engine, SessionLocal
@@ -13,6 +14,14 @@ app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 logging.basicConfig(level=logging.INFO)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
@@ -35,9 +44,9 @@ app.include_router(user.router, prefix="/users", tags=["users"])  # <-- Include 
 
 @app.websocket("/ws")
 async def chat_endpoint(websocket: WebSocket):
-    log.info("WS Code Called")
+    logging.info("WS Code Called")
     await websocket.accept()
-    log.info("WebSocket Accepted")
+    logging.info("WebSocket Accepted")
     
     try:
         while True:
