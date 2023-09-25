@@ -11,6 +11,7 @@ const ChatWindow: React.FC = () => {
     socketRef.current = new WebSocket('ws://localhost:8000/ws');
 
     socketRef.current.onmessage = (event) => {
+      console.log("??")
       setMessages((prev) => [...prev, event.data]);
     };
 
@@ -20,12 +21,27 @@ const ChatWindow: React.FC = () => {
       // socketRef.current?.send(JSON.stringify({ token: 'your-token', userId: 'user-id' }));
     };
 
+    socketRef.current.onclose = (event) => {
+      if (event.wasClean) {
+        console.log(`Closed cleanly, code=${event.code}, reason=${event.reason}`);
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        console.error('Connection died');
+      }
+    };
+  
+    socketRef.current.onerror = (error) => {
+      console.error('WebSocket Error: ', error);
+    };
+
     return () => {
       socketRef.current?.close();
     };
   }, []);
 
   const sendMessage = () => {
+    console.log("wtf")
     if (newMessage.trim() && socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(newMessage);
       setNewMessage('');
@@ -47,7 +63,7 @@ const ChatWindow: React.FC = () => {
         </label>
         <div className="join">
           <input type="text" placeholder="I want a budget" className="input input-bordered w-full join-item" />
-          <button className="btn join-item" onClick={sendMessage}>Send</button>
+          <button className="btn join-item" onChange={(e) => setNewMessage(e.target.value)} onClick={sendMessage} value={newMessage}>Send</button>
         </div>
       </div>
     </div>
