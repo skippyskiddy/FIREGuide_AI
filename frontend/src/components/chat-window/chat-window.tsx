@@ -6,6 +6,13 @@ const ChatWindow: React.FC = () => {
   const [newMessage, setNewMessage] = useState<string>('');
   const socketRef = useRef<WebSocket>();
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+  
   useEffect(() => {
     // Use native WebSocket instead of Socket.io
     socketRef.current = new WebSocket('ws://localhost:8000/ws');
@@ -62,12 +69,14 @@ const ChatWindow: React.FC = () => {
         </label>
         <div className="join">
         <input 
-          type="text" 
-          placeholder="I want a budget" 
-          className="input input-bordered w-full join-item" 
-          onChange={(e) => setNewMessage(e.target.value)} 
-          value={newMessage}
-          />
+        type="text" 
+        placeholder="I want a budget" 
+        className="input input-bordered w-full join-item" 
+        onChange={(e) => setNewMessage(e.target.value)} 
+        value={newMessage}
+        onKeyDown={handleKeyPress}
+        />
+
           <button className="btn join-item" onClick={sendMessage}>Send</button>
 
         </div>
