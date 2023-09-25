@@ -14,9 +14,6 @@ app = FastAPI()
 Base.metadata.create_all(bind=engine)
 logging.basicConfig(level=logging.INFO)
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
-
 
 @app.on_event("startup")
 def startup_event():
