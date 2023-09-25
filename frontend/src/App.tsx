@@ -3,13 +3,13 @@ import ChatWindow from './components/chat-window/chat-window';
 
 function App() {
   return (
-    <div className="h-screen">
-      <div className="app-container">
-        <div className="chat-container">
-        <h1 className="text-4xl font-bold underline">FIRE Up</h1>
+    <div className="flex h-screen w-screen flex-col mx-4">
+      <h1 className="text-4xl font-bold text-white">FIRE Up</h1>
+      <div className="grow flex flex-row basis-4/5">
+        <div className="grow bg-slate-600">
           <ChatWindow />
         </div>
-        <div className="side-pane">
+        <div className="shrink basis-1/5">
           <p>Side Pane Content</p>
         </div>
       </div>
